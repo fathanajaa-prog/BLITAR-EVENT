@@ -1,0 +1,592 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLITAR - Billiard Bareng Anak Tarbiyah</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%);
+            color: white;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .background-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20px 20px, rgba(255,255,255,0.1) 2px, transparent 2px);
+            background-size: 40px 40px;
+            z-index: -1;
+        }
+
+        .billiard-balls {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .ball {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .ball-1 { background: #FFD700; top: 10%; left: 5%; animation-delay: 0s; }
+        .ball-2 { background: #FF4500; top: 20%; right: 10%; animation-delay: 1s; }
+        .ball-3 { background: #32CD32; bottom: 30%; left: 8%; animation-delay: 2s; }
+        .ball-4 { background: #FF1493; bottom: 20%; right: 15%; animation-delay: 3s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .number-badges {
+            display: flex;
+            justify-content: space-between;
+            position: absolute;
+            width: 100%;
+            top: -20px;
+        }
+
+        .badge {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .badge-1 { background: #FFD700; color: black; }
+        .badge-2 { background: #4A90E2; }
+        .badge-3 { background: #E74C3C; }
+        .badge-4 { background: #E91E63; }
+
+        .main-title {
+            font-size: 5rem;
+            font-weight: 900;
+            letter-spacing: 8px;
+            margin: 60px 0 20px 0;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            color: #FFD700;
+            font-weight: bold;
+            letter-spacing: 3px;
+            margin-bottom: 40px;
+        }
+
+        .event-details {
+            background: rgba(0,0,0,0.4);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            border: 2px solid #FFD700;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .event-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .info-card {
+            background: rgba(255,215,0,0.1);
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 5px solid #FFD700;
+        }
+
+        .info-title {
+            font-size: 1.5rem;
+            color: #FFD700;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .info-content {
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .pricing-section {
+            background: rgba(255,215,0,0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .pricing-title {
+            font-size: 2rem;
+            color: #FFD700;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+
+        .pricing-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .pricing-card {
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid #FFD700;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .price {
+            font-size: 2rem;
+            color: #FFD700;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .price-details {
+            font-size: 1.1rem;
+            color: #ccc;
+        }
+
+        .notes-section {
+            background: rgba(231,76,60,0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            border-left: 5px solid #E74C3C;
+        }
+
+        .notes-title {
+            font-size: 1.5rem;
+            color: #E74C3C;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .notes-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .notes-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .notes-list li:before {
+            content: "•";
+            color: #E74C3C;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .registration-section {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            text-align: center;
+            color: black;
+        }
+
+        .register-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .contact-card {
+            background: rgba(0,0,0,0.2);
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+        }
+
+        .contact-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .contact-number {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .deadline {
+            font-size: 1.2rem;
+            margin-top: 20px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .hashtag {
+            text-align: center;
+            margin: 30px 0;
+            font-size: 1.5rem;
+            color: #FFD700;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #E74C3C, #C0392B);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 10px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(231,76,60,0.3);
+        }
+
+        .billiard-image {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .billiard-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 3rem;
+                letter-spacing: 4px;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+                letter-spacing: 2px;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .number-badges {
+                position: relative;
+                justify-content: center;
+                gap: 20px;
+                margin-bottom: 20px;
+            }
+            
+            .badge {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+
+        .animated {
+            animation: slideInUp 1s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-pattern"></div>
+    <div class="billiard-balls">
+        <div class="ball ball-1"></div>
+        <div class="ball ball-2"></div>
+        <div class="ball ball-3"></div>
+        <div class="ball ball-4"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="number-badges">
+                <div class="badge badge-1">1</div>
+                <div class="badge badge-2">2</div>
+                <div class="badge badge-3">3</div>
+                <div class="badge badge-4">4</div>
+            </div>
+            <h1 class="main-title">BLITAR</h1>
+            <p class="subtitle">BILLIARD BARENG ANAK TARBIYAH</p>
+        </header>
+
+        <section class="event-details animated">
+            <div class="event-info">
+                <div class="info-card">
+                    <div class="info-title">Tanggal & Waktu</div>
+                    <div class="info-content">
+                        9 Agustus 2025<br>
+                        11.00 - Selesai
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-title">Lokasi</div>
+                    <div class="info-content">
+                        In Seven Pool Billiard
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="pricing-section animated">
+            <h2 class="pricing-title">Pilihan Kuota</h2>
+            <div class="pricing-options">
+                <div class="pricing-card">
+                    <div class="price">35k</div>
+                    <div class="price-details">
+                        1 Meja 2 Orang<br>
+                        (3 Jam permainan + es teh)
+                    </div>
+                </div>
+                <div class="pricing-card">
+                    <div class="price">25k</div>
+                    <div class="price-details">
+                        1 Meja 4 Orang<br>
+                        (3 Jam permainan + es teh)
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="notes-section animated">
+            <h3 class="notes-title">Noted:</h3>
+            <ul class="notes-list">
+                <li>Biaya diluar paket ditanggung pribadi</li>
+                <li>Kuota terbatas hanya untuk 5 Meja</li>
+                <li>Apabila tidak on time maka waktu selesai permainan billiard tetap 3 jam</li>
+                <li>DP 50% dari harga</li>
+                <li>Hanya untuk mahasiswa Tarbiyah</li>
+            </ul>
+        </section>
+
+        <div class="billiard-image animated">
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/989de8a7-bb3f-4b0a-9e75-6257152c5447.png" alt="Professional billiard table with colorful balls arranged in triangle formation under dramatic lighting in modern pool hall" />
+        </div>
+
+        <div class="hashtag animated">#AlMujtabaReborn</div>
+
+        <section class="registration-section animated">
+            <h2 class="register-title">REGISTER NOW</h2>
+            <div class="contact-info">
+                <div class="contact-card">
+                    <div class="contact-name">Bang Bro</div>
+                    <div class="contact-number">(+62 857-5915-2716)</div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-name">Bang Nunu</div>
+                    <div class="contact-number">(+62 878-7930-2141)</div>
+                </div>
+            </div>
+            <div class="deadline">
+                Pendaftaran sampai Jum'at, 8 Agustus 2025 (22:00 WIB)
+            </div>
+            <button class="cta-button" onclick="openWhatsApp('6285759152716')">Contact Bang Bro</button>
+            <button class="cta-button" onclick="openWhatsApp('6287879302141')">Contact Bang Nunu</button>
+        </section>
+    </div>
+
+    <script>
+        // Animate elements on scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.animated');
+            const windowHeight = window.innerHeight;
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                
+                if (elementTop < windowHeight - 100) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        }
+
+        // Initialize animation styles
+        function initAnimations() {
+            const elements = document.querySelectorAll('.animated');
+            elements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(50px)';
+                element.style.transition = 'all 0.8s ease-out';
+            });
+        }
+
+        // WhatsApp integration
+        function openWhatsApp(number) {
+            const message = "Halo! Saya tertarik untuk mendaftar BLITAR - Billiard Bareng Anak Tarbiyah. Mohon informasi lebih lanjut.";
+            const url = `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+
+        // Floating billiard balls animation
+        function createFloatingBalls() {
+            const colors = ['#FFD700', '#FF4500', '#32CD32', '#FF1493', '#4A90E2', '#9B59B6', '#E74C3C'];
+            
+            setInterval(() => {
+                if (document.querySelectorAll('.floating-ball').length < 10) {
+                    const ball = document.createElement('div');
+                    ball.className = 'floating-ball';
+                    ball.style.cssText = `
+                        position: fixed;
+                        width: 30px;
+                        height: 30px;
+                        border-radius: 50%;
+                        background: ${colors[Math.floor(Math.random() * colors.length)]};
+                        opacity: 0.3;
+                        pointer-events: none;
+                        z-index: -1;
+                        left: ${Math.random() * 100}vw;
+                        top: 100vh;
+                        animation: floatUp 8s linear forwards;
+                    `;
+                    
+                    document.body.appendChild(ball);
+                    
+                    setTimeout(() => {
+                        if (ball.parentNode) {
+                            ball.parentNode.removeChild(ball);
+                        }
+                    }, 8000);
+                }
+            }, 3000);
+        }
+
+        // Add CSS for floating animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes floatUp {
+                to {
+                    transform: translateY(-100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Countdown timer
+        function updateCountdown() {
+            const eventDate = new Date('2025-08-09T11:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = eventDate - now;
+
+            if (distance > 0) {
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                
+                // You can add a countdown display here if needed
+                console.log(`Event in: ${days} days, ${hours} hours, ${minutes} minutes`);
+            }
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            initAnimations();
+            animateOnScroll();
+            createFloatingBalls();
+            updateCountdown();
+            
+            // Animate first elements immediately
+            setTimeout(() => {
+                document.querySelector('.header').style.opacity = '1';
+                document.querySelector('.header').style.transform = 'translateY(0)';
+            }, 300);
+        });
+
+        window.addEventListener('scroll', animateOnScroll);
+        setInterval(updateCountdown, 60000); // Update every minute
+
+        // Add smooth scrolling for better UX
+        document.documentElement.style.scrollBehavior = 'smooth';
+
+        // Parallax effect for background
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.background-pattern');
+            const speed = scrolled * 0.5;
+            parallax.style.transform = `translateY(${speed}px)`;
+        });
+    </script>
+</body>
+</html>
+
