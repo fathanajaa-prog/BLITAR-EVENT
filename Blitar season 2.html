@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Blitar Event Registration</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body {
+    background: url('https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/1b22a45a-c7ff-4dd1-9c97-9574c7826795.png') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  .overlay {
+    background-color: rgba(45, 0, 66, 0.9);
+  }
+  .fancy-border {
+    border: 6px solid transparent;
+    border-image: url("https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/b25529b3-b255-4803-8f01-35fa8dd90dcc.png") 30 round;
+  }
+  .logo {
+    filter: drop-shadow(0 0 4px rgba(255 255 255 / 0.7));
+  }
+</style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-6 text-white">
+  <div class="fancy-border rounded-xl max-w-lg w-full p-6 overlay shadow-lg relative">
+    <header class="flex justify-center mb-6">
+      <div class="logo w-24 h-24 bg-gradient-to-b from-purple-900 to-gray-800 rounded-full flex items-center justify-center text-white font-black text-xl tracking-widest">
+        <span>BLITAR</span>
+      </div>
+    </header>
+    <section class="text-center mb-8 px-4">
+      <h1 class="text-3xl font-extrabold tracking-wide mb-1">BLITAR EVENT</h1>
+      <p class="uppercase font-semibold text-lg mb-1">23 August, 2025</p>
+      <p class="font-medium mb-6">11:00 WIB - 18:00 WIB</p>
+      <p class="text-xl uppercase tracking-widest border-t border-white pt-2 mb-6">In Ovis Billard</p>
+
+      <div class="text-left text-sm md:text-base space-y-2 whitespace-pre-line">
+        <p class="font-bold mb-2">Pilihan Kuota Sampe Tangan Copot (11.00 - 18.00):</p>
+        <ul class="list-disc list-inside space-y-1 mb-4">
+          <li>2 pemain per meja = 50K per pemain</li>
+          <li>4 pemain per meja = 25K per pemain</li>
+          <li>Paket ramean 1 meja = 100K per meja</li>
+        </ul>
+        <p class="font-semibold italic mb-4">(Free Snack platter & Toast)</p>
+        <p class="font-bold uppercase mb-2">Note:</p>
+        <ul class="list-disc list-inside space-y-1">
+          <li>Biaya diluar paket ditanggung pribadi</li>
+          <li>Kuota terbatas hanya untuk 5 meja</li>
+          <li>Apabila tidak on time maka waktu selesai permainan billiard tetap sampai pukul 18.00</li>
+          <li>DP 50% dari harga</li>
+          <li>Syarat dan ketentuan berlaku</li>
+        </ul>
+      </div>
+    </section>
+
+    <form id="registrationForm" class="space-y-5 px-4" autocomplete="off" >
+      <h2 class="text-xl font-semibold text-center mb-4 underline decoration-purple-500 underline-offset-8">Pendaftaran</h2>
+
+      <input
+        type="text"
+        name="name"
+        placeholder="Nama Lengkap"
+        required
+        class="w-full rounded-md px-3 py-2 text-gray-900"
+      />
+
+      <input
+        type="tel"
+        name="phone"
+        placeholder="Nomor Telepon (contoh: 08xx)"
+        pattern="08[0-9]{6,12}"
+        required
+        class="w-full rounded-md px-3 py-2 text-gray-900"
+      />
+
+      <select name="quota" required class="w-full rounded-md px-3 py-2 text-gray-900">
+        <option value="" disabled selected>Pilih Kuota</option>
+        <option value="2 Pemain per Meja = 50K per Pemain">2 Pemain per Meja = 50K per Pemain</option>
+        <option value="4 Pemain per Meja = 25K per Pemain">4 Pemain per Meja = 25K per Pemain</option>
+        <option value="Paket Ramean 1 Meja = 100K per Meja">Paket Ramean 1 Meja = 100K per Meja</option>
+      </select>
+
+      <button
+        type="submit"
+        class="w-full bg-purple-700 hover:bg-purple-900 transition-colors font-extrabold py-3 rounded-md tracking-wide"
+      >
+        Daftar dan Kirim ke WhatsApp
+      </button>
+    </form>
+
+    <footer class="mt-8 text-center text-xs space-y-1 font-mono opacity-80 leading-relaxed">
+      <p>Bang Ghifari (+62 877-2525-7342)</p>
+      <p>Bang Dewa (+62 878-7930-2141)</p>
+      <p>Bang Bros (+62 857-5915-2716)</p>
+    </footer>
+  </div>
+
+<script>
+  // Number to Indonesian phone format for WhatsApp
+  function formatPhoneForWhatsApp(phone) {
+    phone = phone.trim();
+    if (phone.startsWith('0')) {
+      return '62' + phone.slice(1);
+    }
+    return phone;
+  }
+
+  document.getElementById('registrationForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const name = formData.get('name').trim();
+    const phone = formData.get('phone').trim();
+    const quota = formData.get('quota');
+
+    if (!name || !phone || !quota) {
+      alert('Mohon isi semua data dengan benar.');
+      return;
+    }
+
+    // Format phone for WhatsApp URL
+    const waPhone = '6285759152716'; // Fixed target phone number per user request
+
+    // Construct the message to send
+    const message =
+      `Pendaftaran BLITAR EVENT:%0A` +
+      `Nama: ${encodeURIComponent(name)}%0A` +
+      `No. Telp: ${encodeURIComponent(phone)}%0A` +
+      `Kuota: ${encodeURIComponent(quota)}%0A` +
+      `%0A` +
+      `--` +
+      `\nTerima kasih atas pendaftarannya!`;
+
+    // Construct WhatsApp URL
+    const waURL = `https://wa.me/${waPhone}?text=${message}`;
+
+    // Open WhatsApp chat in new tab/window
+    window.open(waURL, '_blank');
+  });
+</script>
+</body>
+</html>
+
